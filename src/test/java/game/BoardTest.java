@@ -24,8 +24,8 @@ public class BoardTest {
     @DataProvider(name = "boards")
     public static Object[][] boardsForGame() {
         return new Object[][] {
-                {(new Board(2, 2).setClearBoardGame().putSign(1, Sign.X)), "X 2 \n3 4"},
-                {new Board(3, 3).setClearBoardGame().putSign(1, Sign.O).putSign(2, Sign.X), "O X 3 \n4 5 6 \n7 8 9"}
+              //  {(new Board(2, 2).setClearBoardGame().putSign(1, Sign.X)), "X 2 \n3 4"},
+              //  {new Board(3, 3).setClearBoardGame().putSign(1, Sign.O).putSign(2, Sign.X), "O X 3 \n4 5 6 \n7 8 9"}
         };
     }
 

@@ -11,8 +11,6 @@ class Settings {
     private CommunicationStream<InputStream> inputStream;
     private CommunicationStream<OutputStream> outputStream;
 
-    private Player firstPlayer;
-    private Player secondPlayer;
 
     Settings(InputStream inputStream, OutputStream outputStream) {
         this.inputStream = new CommunicationStream<>(inputStream);
@@ -38,23 +36,6 @@ class Settings {
         return this;
     }
 
-    public Player getFirstPlayer() {
-        return firstPlayer;
-    }
-
-    public Player getSecondPlayer() {
-        return secondPlayer;
-    }
-
-    public Settings setFirstPlayer(Player firstPlayer) {
-        this.firstPlayer = firstPlayer;
-        return this;
-    }
-
-    public Settings setSecondPlayer(Player secondPlayer) {
-        this.secondPlayer = secondPlayer;
-        return this;
-    }
 
     OutputStream getOutput() {
         return this.outputStream.getStream();

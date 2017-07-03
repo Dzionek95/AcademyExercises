@@ -13,7 +13,10 @@ class Board {
     Board(Integer dimensionX, Integer dimensionY) {
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
-        this.board = new HashMap<>();
+        board=new HashMap<>();
+        setClearBoardGame();
+
+
     }
 
     Board putSign(Integer key, Sign sign) {
@@ -25,10 +28,13 @@ class Board {
         return this.board.get(key);
     }
 
-    Board setClearBoardGame() {
-        for(int i=1; i<=dimensionX*dimensionY; i++)
+    void setClearBoardGame() {
+        for(int i=0; i<dimensionX*dimensionY; i++)
             this.putSign(i, Sign.EMPTY);
-        return this;
+    }
+
+     HashMap<Integer, Sign> getBoard() {
+        return this.board;
     }
 
     @Override
@@ -39,9 +45,9 @@ class Board {
             if (board.get(key).equals(Sign.EMPTY)) result.append(key);
             else result.append(board.get(key).toString());
             result.append(" ");
-            if (key % dimensionX == 0) result.append("\n");
+            if (key % dimensionX == 0 && key!=0) result.append("\n");
         }
-
+        result.append("\n");
         return result.toString();
     }
 }
