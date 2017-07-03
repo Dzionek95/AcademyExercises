@@ -65,7 +65,7 @@ class Game {
     }
 
     void startGame() throws IOException {
-        Sign choicedSign = (Sign) handleIOAndGetInput(getFirstSign).orElse(null);
+        Sign choicedSign =  (Sign) handleIOAndGetInput(getFirstSign).orElse(null);
         writeOut("You picked: " + choicedSign.toString()+"\n");
 
         printBoard();

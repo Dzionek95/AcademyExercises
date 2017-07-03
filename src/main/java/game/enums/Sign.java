@@ -19,7 +19,8 @@ public enum Sign {
     }
 
     public static Optional<Sign> findSign(String character) {
-
+//zwraca podana wartosc, ktora bedzie reprezentowac podany znak, nastepnie mapujemy aby byl z duzych liter,
+// jesli nie ma wartosci to domyslnie bedzie przypisany znak pusty ""
         switch (Optional.ofNullable(character).map(String::toUpperCase).orElse("")) {
             case "X":
                 return Optional.of(X);
