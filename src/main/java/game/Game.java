@@ -1,189 +1,135 @@
 package game;
 
 import game.enums.Sign;
-import game.exceptions.BadParamsException;
 import game.pojo.Player;
-import game.streams.CommunicationStream;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.InputMismatchException;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.concurrent.Callable;
 
-@SuppressWarnings("Duplicates")
 class Game {
 
-    private Settings settings = new Settings(System.in, System.out);
+
     private Board board;
+    private BoardSecurity boardSecurity = new BoardSecurity();
+    private IOHandler ioHandler=new IOHandler();
+    private WinnerChecker winnerChecker;
     private Player player;
     private Player player2;
-    private Scanner scanner = new Scanner(settings.getInput());
-    private BoardSecurity boardSecurity=new BoardSecurity();
-    WinnerChecker winnerChecker;
 
+    void getBasicInformationsAboutGame() throws IOException {
 
-    Game(){
-        int xDemension=(Integer)(handleIOAndGetInput(getXDemension)).orElse(null);
-        int yDemension=(Integer)(handleIOAndGetInput(getYDemension)).orElse(null);
-        board = new Board(xDemension,yDemension);
-        this.winnerChecker=new WinnerChecker(xDemension,yDemension,board);
+        ioHandler.writeOut("What's X size ? \n");
+        int xDemension = (Integer) (ioHandler.handleIOAndGetInput(ioHandler.getNumber)).orElse(null);
+        ioHandler.writeOut("What's Y size ? \n");
+        int yDemension = (Integer) (ioHandler.handleIOAndGetInput(ioHandler.getNumber)).orElse(null);
+        board = new Board(xDemension, yDemension);
+        this.winnerChecker = new WinnerChecker(xDemension, yDemension, board);
     }
 
-    private Callable<Sign> getFirstSign = new Callable<Sign>() {
-        @Override
-        public Sign call() throws IOException {
-            writeOut("Pick who start, X or O ? \n");
-            try {
-                scanner.nextLine();
-                String answer = scanner.nextLine();
-                Optional<Sign> result = Sign.findSign(answer);
-                if (!result.isPresent()) throw new BadParamsException();
-
-                return result.get();
-            } catch (BadParamsException e) {
-                writeOut("Bad paramssss !\n");
-            }
-            return call();
-        }
-    };
-
-
-    private Callable<String> getFirstPlayerName= () -> {
-        writeOut("What's first player name? \n");
-        return scanner.nextLine();
-    };
-
-   private Callable<String> getSecondPlayerName= () -> {
-        writeOut("What's second player name? \n");
-        return scanner.nextLine();
-    };
-
-
-
-   private Callable<Integer> getYDemension=new Callable<Integer>() {
-        @Override
-        public Integer call() throws Exception {
-            try {
-                writeOut("Enter Y demension size: \n");
-                return scanner.nextInt();
-            } catch (InputMismatchException e) {
-                writeOut("Bad params !\n");
-                scanner.nextLine();
-            }
-            return call();
-        }
-    };
-
-    private Callable<Integer> getXDemension=new Callable<Integer>() {
-        @Override
-        public Integer call() throws Exception {
-            try {
-                writeOut("Enter X demension size: \n");
-                return scanner.nextInt();
-            } catch (InputMismatchException e) {
-                writeOut("Bad params !\n");
-                scanner.nextLine();
-            }
-            return call();
-        }
-    };
-
-    private Callable<Integer> getPosition=new Callable<Integer>() {
-        @Override
-        public Integer call() throws Exception {
-            try {
-                return scanner.nextInt();
-            } catch (InputMismatchException e) {
-                writeOut("Bad params !\n");
-                scanner.nextLine();
-            }
-            return call();
-        }
-    };
-
-
-  private Optional<Object> handleIOAndGetInput(Callable function) {
-        try {
-            return Optional.ofNullable(function.call());
-        } catch (IOException e) {
-            System.err.println("Stream doesn't work");
-            e.printStackTrace();
-            System.exit(1);
-        } catch (Exception e) {
-            System.err.println("Something went wrong");
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return Optional.empty();
-    }
-
-    Game setBoard() {
-        this.board.setClearBoardGame();
-        return this;
-    }
-
-    private void writeOut(String string) throws IOException {
-        settings.getOutput().write(string.getBytes());
-    }
-
-    private void printBoard() throws IOException {
-        writeOut(this.board.toString());
-    }
-
-    void startGame() throws IOException {
-        setupGame();
-        int i=0;
-        int positition=0;
-        while(winnerChecker.checkIfWin()){
-            printBoard();
-            writeOut("Put your sign Mr " + player.getName()+"\n");
-            positition=(Integer)((handleIOAndGetInput(getPosition)).orElse(null));
-            positition=securityCheck(positition);
-            board.putSign(positition,player.getSign());
-
-            printBoard();
-            writeOut("Put your sign Mr " + player2.getName()+"\n");
-            positition=(Integer)(handleIOAndGetInput(getPosition)).orElse(null);
-            positition=securityCheck(positition);
-            board.putSign(positition,player2.getSign());
-
-            ++i;
-        }
-
-
-    }
-
-    private void setupGame(){
-        Sign pickedSign =  (Sign) handleIOAndGetInput(getFirstSign).orElse(null);
-        String name =(String) handleIOAndGetInput(getFirstPlayerName).orElse("NONE");
-        player=new Player().setName(name);
+    void setupPlayers() throws IOException {
+        Sign pickedSign = (Sign) ioHandler.handleIOAndGetInput(ioHandler.getFirstSign).orElse(null);
+        ioHandler.writeOut("What's first player name? \n");
+        String name = (String) ioHandler.handleIOAndGetInput(ioHandler.getPlayersName).orElse("NONE");
+        player = new Player().setName(name);
         player.setSign(pickedSign);
 
-        String name2 =(String) handleIOAndGetInput(getSecondPlayerName).orElse("NONE");
-        player2=new Player().setName(name2);
-        if(pickedSign.equals(Sign.O))
+        ioHandler.writeOut("What's second player name? \n");
+        String name2 = (String) ioHandler.handleIOAndGetInput(ioHandler.getPlayersName).orElse("NONE");
+        player2 = new Player().setName(name2);
+        if (pickedSign.equals(Sign.O))
             player2.setSign(Sign.X);
         else
             player2.setSign(Sign.O);
     }
 
-    private int securityCheck(int positition) throws IOException {
-        while(!boardSecurity.checkIfPlaceIsFree(board.getBoard(),positition)){
-            writeOut("This place is already taken pick another one \n");
-            positition=(Integer)((handleIOAndGetInput(getPosition)).orElse(null));
+    void startGame() throws IOException {
+        getBasicInformationsAboutGame();
+        setupPlayers();
+        int roundCounter = 0;
+
+        for (int i = 0; i < 3; ++i) {
+            int signsCounter = 0;
+            ioHandler.writeOut("Let's get ready to round number: " + ++roundCounter + " !!!\n");
+            board.setClearBoardGame();
+            while (winnerChecker.checkIfWin()) {
+
+                ioHandler.writeOut(board.toString());
+                handlePlayersChoice(player);
+                signsCounter++;
+
+                if (!winnerChecker.checkIfWin()) {
+                    handleWinSituation(player);
+                    break;
+                }
+                if (winnerChecker.checkIfDraw(signsCounter)) {
+                    handleDrawSituation();
+                    break;
+                }
+
+                ioHandler.writeOut(board.toString());
+                handlePlayersChoice(player2);
+                signsCounter++;
+
+                if (!winnerChecker.checkIfWin()) {
+                    handleWinSituation(player2);
+                    break;
+                }
+                if (winnerChecker.checkIfDraw(signsCounter)) {
+                    handleDrawSituation();
+                    break;
+                }
+            }
+            if (roundCounter < 3) {
+
+                Character answer = (Character) (ioHandler.handleIOAndGetInput(ioHandler.getQuitOption).orElse(null));
+                if (answer.equals('Y')) {
+                    handleEndOfGameMesssage();
+                    break;
+                }
+            } else
+                handleEndOfGameMesssage();
         }
-        return positition;
     }
 
-    void setInput(InputStream input) {
-        this.settings.setInputStream(new CommunicationStream<>(input));
+    private void handlePlayersChoice(Player player) throws IOException {
+        int positition;
+        ioHandler.writeOut("Put your sign Mr " + player.getName() + "\n");
+        positition = (Integer) ((ioHandler.handleIOAndGetInput(ioHandler.getNumber)).orElse(null));
+        positition = boardSecurity.securityCheck(positition, board);
+        board.putSign(positition, player.getSign());
     }
 
-    void setOutput(OutputStream output) {
-        this.settings.setOutputStream(new CommunicationStream<>(output));
+    private void handleWinSituation(Player player) throws IOException {
+        ioHandler.writeOut("Congratulations " + player.getName() + " You won!!! \n\n");
+        player.setScore(player.getScore() + 3);
+        getOveralScore();
+    }
+
+    private void handleDrawSituation() throws IOException {
+        ioHandler.writeOut("We have Draw! You both get 1 point \n\n");
+        player.setScore(player.getScore() + 1);
+        player2.setScore(player2.getScore() + 1);
+        getOveralScore();
+    }
+
+    private void handleEndOfGameMesssage() throws IOException {
+        Player winner;
+        Player looser;
+        if (player.getScore() > player2.getScore()) {
+            winner = player;
+            looser = player2;
+        } else {
+            winner = player;
+            looser = player2;
+        }
+
+        ioHandler.writeOut("Thanks for playing you both were great, but " + winner.getName() +
+                " won " + " with " + winner.getScore() + " points "
+                + " You " + looser.getName() + " collected " + looser.getScore());
+    }
+
+    private void getOveralScore() throws IOException {
+        ioHandler.writeOut("Overall scores: \n");
+        ioHandler.writeOut(player.getName() + " has " + player.getScore() + " points\n");
+        ioHandler.writeOut(player2.getName() + " has " + player2.getScore() + " points\n");
     }
 
 }

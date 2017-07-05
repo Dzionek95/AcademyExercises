@@ -2,9 +2,9 @@ package game;
 
 import game.enums.Sign;
 
-
+//Methods are almost the same
 @SuppressWarnings("Duplicates")
-public class WinnerChecker {
+class WinnerChecker {
 
     private int winLength=0;
     private Board board;
@@ -21,16 +21,8 @@ public class WinnerChecker {
     }
 
      boolean checkIfWin(){
-        return horiziontalCheck();
+        return diagonalCheck() && horiziontalCheck() && verticalCheck();
     }
-
-//this logic is scary at first, but is very easy to be honest. It's all about repeating sequence every time when you have particular board size
-// try to draw sample board(3x3 is the best for start) and go through logic of methods (start with vertical or horizontal logic)
-// i was looking for pattern on this board:
-// i, i+1, i+2
-//i+3, i+4, i+5
-//i+6, i+7,  i+8
-
 
     private boolean diagonalCheck() {
         int counterX = 0;
@@ -90,6 +82,8 @@ public class WinnerChecker {
                     }
                 }
             }
+            counterX = 0;
+            counterY = 0;
         }
         return true;
 
@@ -114,8 +108,11 @@ public class WinnerChecker {
             }
             counterX=0;
             counterY=0;
-            System.out.println(" ");
         }
         return true;
+    }
+
+    public boolean checkIfDraw(int counter){
+        return counter == boardLength;
     }
 }

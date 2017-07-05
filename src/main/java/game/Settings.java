@@ -1,18 +1,17 @@
 package game;
 
-import game.pojo.Player;
 import game.streams.CommunicationStream;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-class Settings {
+class StreamSettings {
 
     private CommunicationStream<InputStream> inputStream;
     private CommunicationStream<OutputStream> outputStream;
 
 
-    Settings(InputStream inputStream, OutputStream outputStream) {
+    StreamSettings(InputStream inputStream, OutputStream outputStream) {
         this.inputStream = new CommunicationStream<>(inputStream);
         this.outputStream = new CommunicationStream<>(outputStream);
     }
@@ -22,7 +21,7 @@ class Settings {
         return inputStream;
     }
 
-    Settings setInputStream(CommunicationStream<InputStream> inputStream) {
+    StreamSettings setInputStream(CommunicationStream<InputStream> inputStream) {
         this.inputStream = inputStream;
         return this;
     }
@@ -31,7 +30,7 @@ class Settings {
         return outputStream;
     }
 
-    public Settings setOutputStream(CommunicationStream<OutputStream> outputStream) {
+    public StreamSettings setOutputStream(CommunicationStream<OutputStream> outputStream) {
         this.outputStream = outputStream;
         return this;
     }

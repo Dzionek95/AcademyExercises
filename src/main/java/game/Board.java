@@ -15,8 +15,6 @@ class Board {
         this.dimensionY = dimensionY;
         board=new HashMap<>();
         setClearBoardGame();
-
-
     }
 
     Board putSign(Integer key, Sign sign) {
@@ -40,14 +38,16 @@ class Board {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-
+        result.append("\n");
         for (Integer key : board.keySet()) {
+            if (key % dimensionX == 0 && key!=0) result.append("\n");
             if (board.get(key).equals(Sign.EMPTY)) result.append(key);
             else result.append(board.get(key).toString());
             result.append(" ");
-            if (key % dimensionX == 0 && key!=0) result.append("\n");
+
         }
         result.append("\n");
         return result.toString();
     }
+
 }

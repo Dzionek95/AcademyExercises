@@ -4,9 +4,9 @@ import game.enums.Sign;
 
 public class Player {
 
-    String name;
-    Integer score;
-    Sign sign;
+    private String name;
+    private Integer score=0;
+    private Sign sign;
 
     public String getName() {
         return name;

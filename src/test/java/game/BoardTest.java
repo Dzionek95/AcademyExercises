@@ -17,15 +17,17 @@ public class BoardTest {
     }
 
     @DataProvider(name = "signs")
-    public static Object[][] numbersForGame() {
-        return new Object[][] {{1, Sign.X}, {2, Sign.O}};
+    public Object[][] numbersForGame() {
+        return new Object[][]
+                {{1, Sign.X},
+                {2, Sign.O}};
     }
 
     @DataProvider(name = "boards")
-    public static Object[][] boardsForGame() {
+    public Object[][] boardsForGame() {
         return new Object[][] {
-              //  {(new Board(2, 2).setClearBoardGame().putSign(1, Sign.X)), "X 2 \n3 4"},
-              //  {new Board(3, 3).setClearBoardGame().putSign(1, Sign.O).putSign(2, Sign.X), "O X 3 \n4 5 6 \n7 8 9"}
+                {(new Board(2, 2).putSign(0, Sign.EMPTY).putSign(0,Sign.X)), "X 1 \n2 3"},
+                {(new Board(4, 3).putSign(1, Sign.EMPTY).putSign(3, Sign.O)), "0 1 2 O \n4 5 6 7 \n8 9 10 11"}
         };
     }
 
@@ -39,7 +41,7 @@ public class BoardTest {
     public void testSetClearBoardAndExpectBoardWithEmptyFileds() {
         this.board.setClearBoardGame();
         assertEquals(this.board.getSign(1), Sign.EMPTY);
-        assertEquals(this.board.getSign(4), Sign.EMPTY);
+        assertEquals(this.board.getSign(3), Sign.EMPTY);
     }
 
     @Test(dataProvider = "signs")

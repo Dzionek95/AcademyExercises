@@ -3,10 +3,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>main</groupId>
+  <groupId>game</groupId>
   <artifactId>TicTacToeGame</artifactId>
   <version>1</version>
   <packaging>jar</packaging>
+
 
   <name>uniqueartifactid</name>
   <url>http://maven.apache.org</url>
@@ -17,15 +18,7 @@
     <maven_compiler.version>3.6.0</maven_compiler.version>
   </properties>
 
-<!--   <distributionManagement>
-    <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>miloszRepo1</id>
-      <name>Default Repository</name>
-      <url>file:///home/miloszkukula/maven_repo/manual-project/</url>
-      <layout>default</layout>
-    </repository>
-  </distributionManagement> -->
+
 
   <dependencies>
     <dependency>
