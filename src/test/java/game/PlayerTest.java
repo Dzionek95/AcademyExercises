@@ -5,12 +5,13 @@ import game.pojo.Player;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import static org.testng.Assert.assertEquals;
 
 @Test
 public class PlayerTest {
 
-    Player player;
+    private Player player;
 
     @BeforeTest
     public void setUp() {
@@ -19,7 +20,7 @@ public class PlayerTest {
 
     @DataProvider(name = "players")
     public static Object[][] numbersForGame() {
-        return new Object[][] {{"A", 1, Sign.O}, {"B", 0, Sign.X}};
+        return new Object[][]{{"A", 1, Sign.O}, {"B", 0, Sign.X}};
     }
 
     @Test(dataProvider = "players")

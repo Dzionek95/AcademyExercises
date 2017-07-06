@@ -7,7 +7,7 @@ public class CommunicationStream<T> {
 
     T stream;
 
-    public CommunicationStream() {}
+     CommunicationStream() {}
 
     public CommunicationStream(T stream) {
         this.stream = stream;
@@ -17,7 +17,7 @@ public class CommunicationStream<T> {
         return stream;
     }
 
-    public CommunicationStream<T> setStream(T stream) {
+     CommunicationStream<T> setStream(T stream) {
         this.stream = stream;
         return this;
     }

@@ -4,29 +4,30 @@ import game.enums.Sign;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import static org.testng.Assert.assertEquals;
 
 @Test
 public class BoardTest {
 
-    Board board;
+    private Board board;
 
     @BeforeTest
     public void setUp() {
-        this.board = new Board(2 ,2);
+        this.board = new Board(2, 2);
     }
 
     @DataProvider(name = "signs")
     public Object[][] numbersForGame() {
         return new Object[][]
                 {{1, Sign.X},
-                {2, Sign.O}};
+                        {2, Sign.O}};
     }
 
     @DataProvider(name = "boards")
     public Object[][] boardsForGame() {
-        return new Object[][] {
-                {(new Board(2, 2).putSign(0, Sign.EMPTY).putSign(0,Sign.X)), "X 1 \n2 3"},
+        return new Object[][]{
+                {(new Board(2, 2).putSign(0, Sign.EMPTY).putSign(0, Sign.X)), "X 1 \n2 3"},
                 {(new Board(4, 3).putSign(1, Sign.EMPTY).putSign(3, Sign.O)), "0 1 2 O \n4 5 6 7 \n8 9 10 11"}
         };
     }

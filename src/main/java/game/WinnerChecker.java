@@ -86,7 +86,6 @@ class WinnerChecker {
             counterY = 0;
         }
         return true;
-
     }
 
     private boolean verticalCheck() {
@@ -112,7 +111,7 @@ class WinnerChecker {
         return true;
     }
 
-    public boolean checkIfDraw(int counter){
+     boolean checkIfDraw(int counter){
         return counter == boardLength;
     }
 }
