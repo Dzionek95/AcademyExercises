@@ -30,7 +30,7 @@ public class Server {
     }
 
     private void runServer() throws IOException {
-        Sign startingSign= (Sign)ioHandler.handleIOAndGetInput(ioHandler.getFirstSign).orElse(Sign.X);
+        Sign startingSign = (Sign) ioHandler.handleIOAndGetInput(ioHandler.getFirstSign).orElse(Sign.X);
 
         ServerSocket serverSocket = new ServerSocket(6789);
         System.out.println("Waiting for players");
@@ -51,59 +51,77 @@ public class Server {
         BufferedReader fromPlayer2 = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
         nick = fromPlayer2.readLine();
         player2.setName(nick);
-        if(startingSign.toString().equals("X"))
+        if (startingSign.toString().equals("X"))
             player2.setSign(Sign.O);
         else
             player2.setSign(Sign.X);
         toPlayer2.writeBytes(board.toString());
 
         int position;
-        while (winnerChecker.checkIfWin()) {
-
-            toPlayer.writeBytes("Your turn where you want to put sign? \n");
-            toPlayer2.writeBytes("Wait for your turn \n");
-            toPlayer.writeBytes(board.toString());
-            position = Integer.valueOf(fromPlayer.readLine());
-            if (boardSecurity.securityCheck(position, board))
-                board.putSign(position, player.getSign());
-            else {
-                toPlayer.writeBytes("Sorry wong place take another one! \n");
+        int roundCounter=0;
+        for(int i=0; i<3;++i) {
+            board.setClearBoardGame();
+            while (true) {
+                ++roundCounter;
+                toPlayer.writeBytes("Your turn where you want to put sign? \n");
+                toPlayer2.writeBytes("Wait for your turn \n");
+                toPlayer.writeBytes(board.toString());
                 position = Integer.valueOf(fromPlayer.readLine());
-                while (!boardSecurity.securityCheck(position, board)) {
+                if (boardSecurity.securityCheck(position, board))
+                    board.putSign(position, player.getSign());
+                else {
                     toPlayer.writeBytes("Sorry wong place take another one! \n");
                     position = Integer.valueOf(fromPlayer.readLine());
+                    while (!boardSecurity.securityCheck(position, board)) {
+                        toPlayer.writeBytes("Sorry wong place take another one! \n");
+                        position = Integer.valueOf(fromPlayer.readLine());
+                    }
+                    System.out.println(position);
+                    board.putSign(position, player.getSign());
                 }
-                System.out.println(position);
-                board.putSign(position, player.getSign());
-            }
 
-            if (!winnerChecker.checkIfWin()) {
-                handleWinSituation(toPlayer, toPlayer2);
-                break;
-            }
+                if (!winnerChecker.checkIfWin()) {
+                    handleWinSituation(toPlayer, toPlayer2);
+                    break;
+                }
 
-            toPlayer2.writeBytes("Your turn where you want to put sign? \n");
-            toPlayer.writeBytes("Wait for your turn \n");
-            toPlayer2.writeBytes(board.toString());
-            position = Integer.valueOf(fromPlayer2.readLine());
-            if (boardSecurity.securityCheck(position, board))
-                board.putSign(position, player2.getSign());
-            else {
-                toPlayer2.writeBytes("Sorry wong place take another one! \n");
+                toPlayer2.writeBytes("Your turn where you want to put sign? \n");
+                toPlayer.writeBytes("Wait for your turn \n");
+                toPlayer2.writeBytes(board.toString());
                 position = Integer.valueOf(fromPlayer2.readLine());
-                while (!boardSecurity.securityCheck(position, board)) {
+                if (boardSecurity.securityCheck(position, board))
+                    board.putSign(position, player2.getSign());
+                else {
                     toPlayer2.writeBytes("Sorry wong place take another one! \n");
                     position = Integer.valueOf(fromPlayer2.readLine());
+                    while (!boardSecurity.securityCheck(position, board)) {
+                        toPlayer2.writeBytes("Sorry wong place take another one! \n");
+                        position = Integer.valueOf(fromPlayer2.readLine());
+                    }
+
+                    System.out.println(position);
+                    board.putSign(position, player2.getSign());
                 }
 
-                System.out.println(position);
-                board.putSign(position, player2.getSign());
+                if (!winnerChecker.checkIfWin()) {
+                    handleWinSituation(toPlayer2, toPlayer);
+                    break;
+                }
             }
 
+            if(true){
+                toPlayer.writeBytes("Do you want to end game? Y/N");
+                toPlayer2.writeBytes("Do you want to end game? ");
+                //String aswearPlayer= fromPlayer.readLine();
+                //String aswearPlayer2= fromPlayer2.readLine();
+                //if(aswearPlayer.equalsIgnoreCase("Y") || aswearPlayer2.equalsIgnoreCase("Y"))
+                  //  break;
+
+            }else{
+                System.out.println("Game's about to restart");
+            }
 
         }
-
-        handleWinSituation(toPlayer2, toPlayer);
 
     }
 

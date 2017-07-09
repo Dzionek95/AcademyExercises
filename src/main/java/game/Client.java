@@ -40,10 +40,15 @@ public class Client {
                 outToServer.writeBytes(position + "\n");
             } else if (message.startsWith("We have")) {
                 System.out.println(message);
-                break;
+            } else if(message.startsWith("Do you")){
+                System.out.println(message);
+                //String answear= (String) ioHandler.handleIOAndGetInput(ioHandler.getQuitOption).orElse("");
+               // outToServer.writeBytes(answear);
+                //if(answear.equalsIgnoreCase("Y"))
+                  //  break;
             }
         }
-        System.out.println("thanks for playing ;]");
+        //System.out.println("thanks for playing ;]");
     }
 
 }
