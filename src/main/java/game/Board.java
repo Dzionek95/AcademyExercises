@@ -10,9 +10,15 @@ class Board {
     private Integer dimensionX;
     private Integer dimensionY;
 
+    public Integer getSize() {
+        return size;
+    }
+
+    private Integer size;
     Board(Integer dimensionX, Integer dimensionY) {
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
+        this.size=dimensionX*dimensionY;
         board=new HashMap<>();
         setClearBoardGame();
     }
@@ -38,9 +44,9 @@ class Board {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("\n");
+       // result.append("\n");
         for (Integer key : board.keySet()) {
-            if (key % dimensionX == 0 && key!=0) result.append("\n");
+            if (key % dimensionX == 0 && key!=0) result.append(":");
             if (board.get(key).equals(Sign.EMPTY)) result.append(key);
             else result.append(board.get(key).toString());
             result.append(" ");

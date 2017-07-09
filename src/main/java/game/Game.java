@@ -71,7 +71,7 @@ class Game {
         int positition;
         ioHandler.writeOut("Put your sign Mr " + player.getName() + "\n");
         positition = (Integer) ((ioHandler.handleIOAndGetInput(ioHandler.getNumber)).orElse(null));
-        positition = boardSecurity.securityCheck(positition, board);
+        //positition = boardSecurity.securityCheck(positition, board);
         board.putSign(positition, player.getSign());
     }
 

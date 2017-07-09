@@ -5,6 +5,7 @@ import game.enums.Sign;
 import game.pojo.Player;
 
 import java.io.IOException;
+import java.net.Socket;
 
 class GameSetup {
 
@@ -16,8 +17,8 @@ class GameSetup {
 
     GameSetup() throws IOException {
         getBasicInformationsAboutGame();
-        setupPlayers();
     }
+
 
     void getBasicInformationsAboutGame() throws IOException {
         ioHandler.writeOut("What's X size ? \n");
@@ -26,22 +27,6 @@ class GameSetup {
         int yDemension = (Integer) (ioHandler.handleIOAndGetInput(ioHandler.getNumber)).orElse(null);
         setBoard(new Board(xDemension, yDemension));
         setWinnerChecker(new WinnerChecker(xDemension, yDemension, board));
-    }
-
-    void setupPlayers() throws IOException {
-        Sign pickedSign = (Sign) ioHandler.handleIOAndGetInput(ioHandler.getFirstSign).orElse(null);
-        ioHandler.writeOut("What's first player name? \n");
-        String name = (String) ioHandler.handleIOAndGetInput(ioHandler.getPlayersName).orElse("NONE");
-        setPlayer(new Player().setName(name));
-        getPlayer().setSign(pickedSign);
-
-        ioHandler.writeOut("What's second player name? \n");
-        String name2 = (String) ioHandler.handleIOAndGetInput(ioHandler.getPlayersName).orElse("NONE");
-        setPlayer2(new Player().setName(name2));
-        if (pickedSign.equals(Sign.O))
-            getPlayer2().setSign(Sign.X);
-        else
-            getPlayer2().setSign(Sign.O);
     }
 
     Board getBoard() {

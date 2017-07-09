@@ -2,11 +2,15 @@ package game.pojo;
 
 import game.enums.Sign;
 
+import java.net.Socket;
+
 public class Player {
 
     private String name;
     private Integer score=0;
     private Sign sign;
+    private Socket socket;
+
 
     public String getName() {
         return name;
@@ -33,5 +37,14 @@ public class Player {
     public Player setSign(Sign sign) {
         this.sign = sign;
         return this;
+    }
+
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }
