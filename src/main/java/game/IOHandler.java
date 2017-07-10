@@ -14,18 +14,17 @@ import java.util.concurrent.Callable;
 
     private StreamSettings streamSettings = new StreamSettings(System.in, System.out);
     private Scanner scanner = new Scanner(streamSettings.getInput());
-
+    private boolean flag=true;
      void writeOut(String string) throws IOException {
         streamSettings.getOutput().write(string.getBytes());
     }
-
 
      Callable<Sign> getFirstSign = new Callable<Sign>() {
         @Override
         public Sign call() throws IOException {
             writeOut("Pick who start, X or O ? \n");
             try {
-                scanner.nextLine();
+                if(flag){ scanner.nextLine(); flag=false;}
                 String answer = scanner.nextLine();
                 Optional<Sign> result = Sign.findSign(answer);
                 if (!result.isPresent()) throw new BadParamsException();
@@ -41,11 +40,8 @@ import java.util.concurrent.Callable;
      Callable<String> getPlayersName = () -> scanner.nextLine();
 
      Callable<Character> getQuitOption = new Callable<Character>() {
-
-        @Override
+         @Override
         public Character call() throws IOException {
-            scanner.nextLine();
-            writeOut("Do you want to end game Y/N ? \n");
             try {
                 Character answer = scanner.nextLine().toUpperCase().charAt(0);
                 if (!(answer.equals('Y') || answer.equals('N'))) throw new BadParamsException();

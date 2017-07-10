@@ -62,7 +62,7 @@ class Game {
                     handleEndOfGameMesssage();
                     break;
                 }
-            } else
+            }    else
                 handleEndOfGameMesssage();
         }
     }

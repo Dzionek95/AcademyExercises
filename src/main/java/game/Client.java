@@ -42,13 +42,15 @@ public class Client {
                 System.out.println(message);
             } else if(message.startsWith("Do you")){
                 System.out.println(message);
-                //String answear= (String) ioHandler.handleIOAndGetInput(ioHandler.getQuitOption).orElse("");
-               // outToServer.writeBytes(answear);
-                //if(answear.equalsIgnoreCase("Y"))
-                  //  break;
+                Character answear= (Character) ioHandler.handleIOAndGetInput(ioHandler.getQuitOption).orElse(" ");
+                outToServer.writeBytes(answear + "\n");
+                if(answear.equals('Y'))
+                    break;
+            } else if(message.startsWith("Player")){
+                System.out.println("Sorry, but player left that's all for now");
+                break;
             }
         }
-        //System.out.println("thanks for playing ;]");
     }
 
 }

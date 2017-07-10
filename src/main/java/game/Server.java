@@ -6,8 +6,6 @@ import game.pojo.Player;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Vector;
 
 @SuppressWarnings("Duplicates")
 public class Server {
@@ -24,7 +22,6 @@ public class Server {
     }
 
     public static void main(String argv[]) throws Exception {
-
         Server server = new Server();
         server.runServer();
     }
@@ -109,17 +106,21 @@ public class Server {
                 }
             }
 
-            if(true){
-                toPlayer.writeBytes("Do you want to end game? Y/N");
-                toPlayer2.writeBytes("Do you want to end game? ");
-                //String aswearPlayer= fromPlayer.readLine();
-                //String aswearPlayer2= fromPlayer2.readLine();
-                //if(aswearPlayer.equalsIgnoreCase("Y") || aswearPlayer2.equalsIgnoreCase("Y"))
-                  //  break;
+                toPlayer.writeBytes("Do you want to end game?? Y/N \n");
+                toPlayer2.writeBytes("Do you want to end game? Y/N \n");
+                String aswearPlayer= fromPlayer.readLine();
+                String aswearPlayer2= fromPlayer2.readLine();
+                System.out.println(aswearPlayer);
+                System.out.println(aswearPlayer2);
+                if(aswearPlayer.equalsIgnoreCase("Y")){
+                    toPlayer2.writeBytes("Player left \n");
+                    break;
+                }else if(aswearPlayer2.equalsIgnoreCase("Y")){
+                    toPlayer.writeBytes("Player left \n");
+                    break;
+                }
 
-            }else{
-                System.out.println("Game's about to restart");
-            }
+
 
         }
 

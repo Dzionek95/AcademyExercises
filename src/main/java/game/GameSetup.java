@@ -1,11 +1,7 @@
 package game;
 
-
-import game.enums.Sign;
 import game.pojo.Player;
-
 import java.io.IOException;
-import java.net.Socket;
 
 class GameSetup {
 
