@@ -1,28 +1,34 @@
 # TicTacToeGame
 
+This is project was created to practise OOP, Server-Socket, TestNG, Git, Maven skills.
+What is more some part of this project was inherited from Miłosz
+
 ## How to run ?
 - compile: mvn clean install
 - test: mvn test
 - run: mvn exec:java -Dexec.mainClass="game.Game"
 
-## TODO list
-1. Display board DONE
-2. Update board 
-3. Ask for move DONE
-4. Check for winner
-5. Is there a winner/draw
-6. Show result
-7. Who turn
-8. Ask who starts DONE
-9. Error handling
 
-## Test list
-1. Test interactive 
-2. Test display, compare result from inputStream HALF DONE
-3. Update board, values changes DONE
+# Requirements
 
-
-## Requirements
-
+- [x] It is "best of three", though I can quit mid-way through.
+- [x] Characters: O (naught) and X (cross)
+- [x] Players have names and scores.
+- [x] Winner has better score. Draw is possible.
+- [x]Client Server 
+##Interactive:
+- [x] it should accept players instructions about each move
+- [x]it should ask who begins
+- [x] it informs about session result, who’s turn it is now and the like
+- [x] Match gives points: win 3, draw 1, loss 0. 3 matches == game.
+- [x] Game works with square or rectangular board.
+- [x] Player wins, if he has unbroken line of his characters, in a row, in a column or diagonally.
+- [x]Winning is announced in a message: Wygrywa O. O: 1 X: 0 (numbers are current points).
+##Game is configurable:
+- [x] Board dimensions: 3x3, 4x4, 99x101, etc. (user provides)
+- [ ] Winning condition has variable number of characters: 3, 4, 5, etc. (user provides)
+- [x] Game messages should have configurable target: console (System.out) or logs (for the sake of this exercise it’s OK to make it System.err), or external printer.
+- [x] before game starts it asks who goes first, O or X
+- [ ]We are bi-lingual: Polish and English are fine. In future we want to add more languages: messages are to be read from a file for chosen language. Choosing the language depends on configuration variable.
 
 
