@@ -6,11 +6,11 @@
 ## How to run ##
 First of all you have to start Server 
 
-mvn exec:java -Dexec.mainClass="game.Server"
+**mvn exec:java -Dexec.mainClass="game.Server"**
 
 After insterting all informations about game start Client
 
-mvn exec:java -Dexec.mainClass="game.Client"
+**mvn exec:java -Dexec.mainClass="game.Client"**
 
 # Requirements
 
