@@ -8,8 +8,6 @@ class GameSetup {
     private IOHandler ioHandler=new IOHandler();
     private Board board;
     private WinnerChecker winnerChecker;
-    private Player player;
-    private Player player2;
 
     GameSetup() throws IOException {
         getBasicInformationsAboutGame();
@@ -39,22 +37,6 @@ class GameSetup {
 
     void setWinnerChecker(WinnerChecker winnerChecker) {
         this.winnerChecker = winnerChecker;
-    }
-
-    Player getPlayer() {
-        return player;
-    }
-
-    void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    Player getPlayer2() {
-        return player2;
-    }
-
-    void setPlayer2(Player player2) {
-        this.player2 = player2;
     }
 
     IOHandler getIoHandler() {

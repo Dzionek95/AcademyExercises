@@ -18,7 +18,7 @@ public class Server {
     private Player player;
     private Player player2;
 
-    public Server() throws IOException {
+    private Server() throws IOException {
     }
 
     public static void main(String argv[]) throws Exception {
@@ -55,11 +55,11 @@ public class Server {
         toPlayer2.writeBytes(board.toString());
 
         int position;
-        int roundCounter=0;
-        for(int i=0; i<3;++i) {
+        int movesCounter;
+        for (int roundCounter = 0; roundCounter < 3; ++roundCounter) {
             board.setClearBoardGame();
+            movesCounter=0;
             while (true) {
-                ++roundCounter;
                 toPlayer.writeBytes("Your turn where you want to put sign? \n");
                 toPlayer2.writeBytes("Wait for your turn \n");
                 toPlayer.writeBytes(board.toString());
@@ -79,6 +79,16 @@ public class Server {
 
                 if (!winnerChecker.checkIfWin()) {
                     handleWinSituation(toPlayer, toPlayer2);
+                    break;
+                }
+
+                movesCounter++;
+
+                if(movesCounter==board.getSize()){
+                    toPlayer.writeBytes("We have draw you're getting 1 point \n");
+                    toPlayer2.writeBytes("We have draw you're getting 1 point \n");
+                    player.setScore(player.getScore()+1);
+                    player2.setScore(player2.getScore()+1);
                     break;
                 }
 
@@ -104,23 +114,27 @@ public class Server {
                     handleWinSituation(toPlayer2, toPlayer);
                     break;
                 }
+                movesCounter++;
             }
 
+            if (roundCounter < 2) {
                 toPlayer.writeBytes("Do you want to end game?? Y/N \n");
                 toPlayer2.writeBytes("Do you want to end game? Y/N \n");
-                String aswearPlayer= fromPlayer.readLine();
-                String aswearPlayer2= fromPlayer2.readLine();
-                System.out.println(aswearPlayer);
-                System.out.println(aswearPlayer2);
-                if(aswearPlayer.equalsIgnoreCase("Y")){
+                String aswearPlayer = fromPlayer.readLine();
+                String aswearPlayer2 = fromPlayer2.readLine();
+                if (aswearPlayer.equalsIgnoreCase("Y")) {
                     toPlayer2.writeBytes("Player left \n");
                     break;
-                }else if(aswearPlayer2.equalsIgnoreCase("Y")){
+                } else if (aswearPlayer2.equalsIgnoreCase("Y")) {
                     toPlayer.writeBytes("Player left \n");
                     break;
                 }
-
-
+            } else {
+                toPlayer.writeBytes("End of game thanks for playind \n");
+                toPlayer.writeBytes("Overal score: " + player.getName() + " gained: " + player.getScore() + " and "+ player2.getName() + " gained: " + player2.getScore() + "\n");
+                toPlayer2.writeBytes("End of game thanks for playind \n");
+                toPlayer2.writeBytes("Overal score: " + player.getName() + " gained: " + player.getScore() + " and "+ player2.getName() + " gained: " + player2.getScore() + "\n");
+            }
 
         }
 

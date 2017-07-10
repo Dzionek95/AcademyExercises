@@ -16,7 +16,6 @@ public class GameTest {
 
     private Player player;
     private Player player2;
-    private Game game;
 
     @BeforeTest
     public void setUp() throws IOException {
