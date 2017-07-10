@@ -36,6 +36,6 @@ After insterting all informations about game start Client
 
 ## My comment
 - Some classes do not follow SRP 
-- Some parts of my code do not follow DRY principle, because my Server is one - threaded. This basicly
-means that I've hardcoded possible movements of players and server
+- Some parts of my code do not follow DRY principle, because of Server which is single-threaded. This basicly
+means that I've hardcoded possible movements of players and server 
 
