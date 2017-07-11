@@ -20,7 +20,7 @@ class Client {
     }
 
     private void startGame() throws IOException {
-        System.out.println("What's your name?");
+        ioHandler.writeOut("What's your name?");
         String nick = (String) ioHandler.handleIOAndGetInput(ioHandler.getPlayersName).orElse("brak");
         outToServer.writeBytes(nick + "\n");
 
